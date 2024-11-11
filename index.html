@@ -1,0 +1,72 @@
+<!doctype html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>The Pizza Edition</title>
+        <link rel="icon" type="image/x-icon" href="images/favicon.ico">
+        <style>
+            body {
+                margin: 0;
+                padding: 0;
+                overflow: hidden;
+                height: 100vh;
+                display: flex;
+                justify-content: center;
+                align-items: center;
+                background-color: #f0f0f0;
+                position: relative;
+            }
+            iframe {
+                width: 100vw;
+                height: 100vh;
+                border: none;
+            }
+            .return-button {
+                position: absolute;
+                top: 10px;
+                right: 10px;
+                padding: 10px 20px;
+                background-color: #007bff;
+                color: white;
+                border: none;
+                border-radius: 5px;
+                cursor: pointer;
+                font-size: 16px;
+                text-decoration: none;
+                display: inline-block;
+                font-family: Arial, sans-serif; /* Set font to regular text */
+                font-weight: normal; /* Ensure the font is not bold */
+            }
+            .return-button:hover {
+                background-color: #0056b3;
+            }
+        </style>
+    </head>
+    <body>
+        <a href="{{ url_for('home') }}" class="return-button">Return to home</a>
+        <iframe
+            src="https://8000-gitpoddemos-springpetcl-c0tw75743tw.ws-us116.gitpod.io"
+        ></iframe>
+    </body>
+    <script>
+        setInterval(function() {
+            const username = '{{ session["username"] }}';
+            const currentPage = window.location.hostname; // Get the full hostname
+            const subdomain = currentPage.split('.')[0]; // Extract the subdomain
+    
+            if (username) {
+                fetch('/update_active', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({ 
+                        username: username, 
+                        currentPage: window.location.href // Send subdomain
+                    })
+                });
+            }
+        }, 1000); // Send a request every 5 seconds
+    </script>
+</html>
